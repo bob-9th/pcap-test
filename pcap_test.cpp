@@ -47,11 +47,11 @@ int main(int argc, char *argv[]) {
 			cout << "Dest IP: " << inet_ntoa(_ip->ip_dst) << ", Dest Mac: "
 			     << ether_ntoa((ether_addr *) eth->ether_dhost) << "\n";
 
-			auto *tcp = (tcphdr *) (packet + 14 + sizeof(ip));
+			auto *tcp = (tcphdr *) (packet + 14 + _ip->ip_hl * 4);
 			cout << "Source Port: " << ntohs(tcp->th_sport) << ", Dest Port: " << ntohs(tcp->th_dport) << "\n";
 
-			auto *data = packet + 14 + sizeof(ip) + sizeof(tcphdr) + 12;
-			int len = max(0UL, ntohs(_ip->ip_len) - sizeof(ip) - sizeof(tcphdr) - 12);
+			auto *data = packet + 14 + _ip->ip_hl * 4 + tcp->th_off * 4;
+			int len = max(0UL, ntohs(_ip->ip_len) - _ip->ip_hl * 4 - tcp->th_off * 4);
 			cout << "TCP Payload (" << len << " bytes): " << (len ? "" : "<empty>");
 
 			ios prev(NULL);
