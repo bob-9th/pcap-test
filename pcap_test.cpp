@@ -55,14 +55,14 @@ int main(int argc, char *argv[]) {
 			cout << "TCP Payload (" << len << " bytes): " << (len ? "" : "<empty>");
 
 			ios prev(NULL);
-            prev.copyfmt(cout);
+            		prev.copyfmt(cout);
 
-            cout << setfill('0') << hex;
+            		cout << setfill('0') << hex;
 			for (int i = 0; i < min(16, len); i++) {
 				cout << setw(2) << (int) data[i] << " ";
 			}
 
-            cout.copyfmt(prev);
+            		cout.copyfmt(prev);
 			cout <<  "\n\n================= [DUMP END] =================\n\n";
 		}
 	}
